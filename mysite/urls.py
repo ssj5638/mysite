@@ -16,8 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 import main.views as mv
+import guestbook.views as gv
 
 urlpatterns = [
+    path('guestbook/', gv.list),
+    path('guestbook/add', gv.add),
+    path('guestbook/delete', gv.delete),
     path('', mv.index),
     path('admin/', admin.site.urls),
 ]
