@@ -21,6 +21,7 @@ import guestbook.views as gv
 urlpatterns = [
     path('guestbook/', gv.list),
     path('guestbook/add', gv.add),
+    path('guestbook/deleteform', gv.deleteform),
     path('guestbook/delete', gv.delete),
     path('', mv.index),
     path('admin/', admin.site.urls),

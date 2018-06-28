@@ -22,5 +22,15 @@ def add(request):
     return HttpResponseRedirect('/guestbook')
 
 
+def deleteform(request):
+    print(request)
+    id_value = request.GET.get('id')
+    context = {'id_value':id_value}
+    return render(request, 'guestbook/deleteform.html', context)
+
 def delete(request):
-    return render(request, 'guestbook/deleteform.html')
+    id_value = request.POST.get('no')
+    pw_input = request.POST.get('password')
+    Guestbook.objects.filter(id=id_value).filter(password=pw_input).delete()
+
+    return HttpResponseRedirect('/guestbook')
