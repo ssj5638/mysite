@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'mathfilters',
     'main',
     'guestbook',
+    'board',
 ]
 
 MIDDLEWARE = [
