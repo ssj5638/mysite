@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'main',
     'guestbook',
     'board',
+    'user',
 ]
 
 MIDDLEWARE = [
@@ -59,7 +60,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [os.path.join(BASE_DIR, 'templates')],
-        'APP_DIRS': True,
+        'APP_DIRS': True,       # 어플리케이션의 경로를 잡을때 사용
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
@@ -130,3 +131,6 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'statics'),
 )
 STATIC_URL = '/assets/'
+
+# session
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # 브라우저가 종료된 경우 초기화

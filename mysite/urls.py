@@ -18,6 +18,7 @@ from django.urls import path
 import main.views as mv
 import guestbook.views as gv
 import board.views as bv
+import user.views as uv
 
 urlpatterns = [
     path('guestbook/', gv.list),
@@ -26,7 +27,20 @@ urlpatterns = [
     path('guestbook/delete', gv.delete),
 
     path('board/', bv.list),
+    path('board/writeform', bv.writeform),
     path('board/write', bv.write),
+    path('board/delete', bv.delete),
+    path('board/view', bv.view),
+    path('board/modifyform', bv.modifyform),
+    path('board/modify', bv.modify),
+    path('board/search', bv.search),
+
+    path('user/joinform', uv.joinform),
+    path('user/joinsuccess', uv.joinsuccess),
+    path('user/join', uv.join),     # POST로 보내지는 URL에는 맨끝 /를 넣지 않는다.
+    path('user/loginform', uv.loginform),
+    path('user/login', uv.login),
+    path('user/logout', uv.logout),
 
     path('', mv.index),
     path('admin/', admin.site.urls),
