@@ -14,13 +14,17 @@ def list(request):
 
 
 def writeform(request):
-    print(request.POST.get(request.GET.get['id']))
-    if request.GET['user'] != '':
-        user = request.session['authuser']                      # 로그인된 사용자의 정보
-        userinfo = {'user': user}
-        return render(request, 'board/write.html', userinfo)
-    else:
-        return HttpResponseRedirect('/user/loginform')
+    user = request.session['authuser']
+    userinfo = {'user': user}
+    return render(request, 'board/write.html', userinfo)
+
+    # HTML에서 가능하도록 바꿈
+    # if request.GET['user'] != '':
+    #     user = request.session['authuser']
+    #     userinfo = {'user': user}
+    #     return render(request, 'board/write.html', userinfo)
+    # else:
+    #     return HttpResponseRedirect('/user/loginform')
 
 def write(request):
     print(request.POST)

@@ -36,7 +36,11 @@
 	</table>
 	<br>
 	<div class="bottom">
-		<a href="/board/writeform?user={{request.session.authuser.id}}" id="new-book">글쓰기</a>
+		{% if request.session.authuser.id is not None %}
+			<a href="/board/writeform?user={{request.session.authuser.id}}" id="new-book">글쓰기</a>
+		{% elif request.session.authuser.id is None %}
+			<a href="/user/loginform" id="new-book">글쓰기</a>
+		{% endif %}
 	</div>
 </div>
 {%endblock%}
