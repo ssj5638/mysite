@@ -7,27 +7,30 @@ from user.models import User
 
 
 def list(request):
-    board_list = Board.objects.all().order_by('-regdate')   # DB에 있는 board 테이블
+    board_list = Board.objects.all().order_by('-regdate')   # DB에 있는 board 테이블 list.html에서 확인
     context = {'board_list': board_list}
     # print(context)
     return render(request, 'board/list.html', context)
 
 
 def writeform(request):
-    user = request.session['authuser']          # 로그인된 사용자의 정보
-    userinfo = {'user': user}
-
-    return render(request, 'board/write.html', userinfo)
+    print(request.POST.get(request.GET.get['id']))
+    if request.GET['user'] != '':
+        user = request.session['authuser']                      # 로그인된 사용자의 정보
+        userinfo = {'user': user}
+        return render(request, 'board/write.html', userinfo)
+    else:
+        return HttpResponseRedirect('/user/loginform')
 
 def write(request):
-    if request.session['authuser'] is not None:
-        user_id = request.POST.get('user_id')
-        board = Board()
-        board.title = request.POST['title']
-        board.message = request.POST['content']
-        board.user = User.objects.get(id=user_id)
+    print(request.POST)
+    user_id = request.POST.get('user_id')
+    board = Board()
+    board.title = request.POST['title']
+    board.message = request.POST['content']
+    board.user = User.objects.get(id=user_id)
 
-        board.save()
+    board.save()
 
     return HttpResponseRedirect('/board')
 

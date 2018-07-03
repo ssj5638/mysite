@@ -35,10 +35,8 @@
 		{% endfor %}
 	</table>
 	<br>
-	{% if request.session.authuser is not None %}
 	<div class="bottom">
-		<a href="/board/writeform" id="new-book">글쓰기</a>
+		<a href="/board/writeform?user={{request.session.authuser.id}}" id="new-book">글쓰기</a>
 	</div>
-	{% endif %}
 </div>
 {%endblock%}
