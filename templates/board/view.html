@@ -25,7 +25,7 @@
 	</table>
 	<div class="bottom">
 		<a href="/board">글목록</a>
-		{% if request.session.authuser.name == board.user.name %} <!--로그인한 사용자의 name 값과 작성자의 name값 비교-->
+		{% if request.session.authuser.id == board.user.id %} <!--로그인한 사용자의 name 값과 작성자의 name값 비교-->
 		<a href="/board/modifyform?id={{board.id}}">글수정</a>
 		{% endif %}
 	</div>

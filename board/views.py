@@ -2,6 +2,7 @@ from django.shortcuts import render
 from board.models import Board
 from django.http import HttpResponseRedirect
 from user.models import User
+from django.db.models import F
 
 # Create your views here.
 
@@ -17,14 +18,14 @@ def writeform(request):
     user = request.session['authuser']
     userinfo = {'user': user}
     return render(request, 'board/write.html', userinfo)
-
-    # HTML에서 가능하도록 바꿈
-    # if request.GET['user'] != '':
-    #     user = request.session['authuser']
-    #     userinfo = {'user': user}
-    #     return render(request, 'board/write.html', userinfo)
-    # else:
-    #     return HttpResponseRedirect('/user/loginform')
+    ''' HTML에서 가능하도록 바꿈    
+    if request.GET['user'] != '':
+        user = request.session['authuser']
+        userinfo = {'user': user}
+        return render(request, 'board/write.html', userinfo)
+    else:
+        return HttpResponseRedirect('/user/loginform')
+        '''
 
 def write(request):
     print(request.POST)
@@ -46,7 +47,17 @@ def delete(request):
 
 def view(request):
     board = Board.objects.filter(id=request.GET['id'])[0]
+    print(board)
     context = {'board':board}
+    print(request)
+    try:                                # modify함수에서 넘어온 경우
+        if request.GET['noHit'] == 1:
+            pass
+    except:                             # title을 클릭하여 호출한 경우
+        Board.objects.filter(id=request.GET['id']).update(hit=F('hit') + 1)
+        # 해당 값만 업데이트
+        # 업데이트 호출은 F()객체를 사용하여 모델의 다른 필드 값을 기반으로 한 필드를 업데이트 할 수 있음
+
     return render(request, 'board/view.html',context)
 
 
@@ -58,20 +69,24 @@ def modifyform(request):
 
 
 def modify(request):
+    print(Board.objects.filter(id=request.POST['id']))
     board = Board.objects.filter(id=request.POST['id'])[0]
+    print(board)
     user_id = request.session['authuser']['id']
     board.title = request.POST['title']
     board.message = request.POST['content']
     board.user = User.objects.get(id=user_id)
 
-    board.save()
-    return HttpResponseRedirect('/board/view?id='+request.POST['id'])
+    board.save
+    return HttpResponseRedirect('/board/view?id='+request.POST['id']+'&noHit=1')
 
 def search(request):
-    # print(request)
-    # s_text = request.POST['kwd']
-    # if s_text in Board.objects[0]:
-    #     board_list = Board.objects.all().order_by('-regdate')
-    #     context = {'board_list': board_list}
+    keyword = request.GET['kwd']
+
+    board_list = Board.objects.filter(title__contains = keyword)
+
+    print(board_list)
+    context={'board_list': board_list}
+
     # return HttpResponseRedirect('/board', context)
-    pass
+    return render(request, 'board/list.html', context)
