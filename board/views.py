@@ -47,9 +47,9 @@ def delete(request):
 
 def view(request):
     board = Board.objects.filter(id=request.GET['id'])[0]
-    print(board)
+    # print(board)
     context = {'board':board}
-    print(request)
+    # print(request)
     try:                                # modify함수에서 넘어온 경우
         if request.GET['noHit'] == 1:
             pass
@@ -77,7 +77,8 @@ def modify(request):
     board.message = request.POST['content']
     board.user = User.objects.get(id=user_id)
 
-    board.save
+    board.save()
+    # print(board)
     return HttpResponseRedirect('/board/view?id='+request.POST['id']+'&noHit=1')
 
 def search(request):
